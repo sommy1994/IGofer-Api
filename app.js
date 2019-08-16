@@ -12,6 +12,7 @@ var logger = require("morgan");
 var passport = require("passport");
 var localeStrategy = require("passport-local").Strategy;
 var bodyParser = require("body-parser");
+var createError = require('http-errors');
 var mongoose = require("mongoose");
 var cors = require("cors");
 
@@ -32,25 +33,17 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 app.use(logger("dev"));
-app.use(express.json());
-app.use(express.urlencoded({ extended: false }));
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, "public")));
 
-app.use("/", indexRouter);
+//app.use("/", indexRouter);
 app.use("/users", usersRouter);
 
-module.exports = app;
-
-var app = express();
-
-app.use(logger("dev"));
-app.use(express.json());
-app.use(express.urlencoded({ extended: false }));
-app.use(cookieParser());
-app.use(express.static(path.join(__dirname, "public")));
-
-app.use("/", indexRouter);
-app.use("/users", usersRouter);
+// catch 404 and forward to error handler
+app.use( (req, res, next) => {
+  next(createError(404, 'Page not found'));
+});
 
 module.exports = app;

@@ -8,16 +8,17 @@
   },
   "dependencies": {
     "cookie-parser": "~1.4.3",
-    "debug": "~2.6.9",
-    "express": "~4.16.0",
-    "morgan": "~1.9.0",
-    "mongoose": "*",
-    "express-validator": "*",
-    "passport": "*",
-    "passport-local": "*",
-    "passport-http": "*",
     "cors": "*",
-    "dotenv": "*"
+    "debug": "~2.6.9",
+    "dotenv": "*",
+    "express": "~4.16.0",
+    "express-validator": "*",
+    "http-errors": "^1.7.3",
+    "mongoose": "*",
+    "morgan": "~1.9.0",
+    "passport": "*",
+    "passport-http": "*",
+    "passport-local": "*"
   },
   "engines": {
     "node": "10.15.1"
