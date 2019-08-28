@@ -56,10 +56,8 @@ const user_controllers = {
         }
 
         delete user.password;
-
-        try {
-            var token = await jwt.sign(user.toJSON(), config.login_key, {expiresIn: '6h'});
-            if (!token) return res.status(500).json({
+        jwt.sign(user.toJSON(), config.login_key, {expiresIn: '6h'}, (err, token) => {
+            if (err) return res.status(500).json({
                 status: false,
                 msg: 'an error occured, contact admin'
             });
@@ -69,14 +67,7 @@ const user_controllers = {
                 msg: 'successfully logged in',
                 token
             });
-        } catch (error) {
-            res.status(422).json({
-                status: false,
-                msg: 'an error occured, please contact admin'
-            });
-        }
-        
-
+        });
     }
 };
 
