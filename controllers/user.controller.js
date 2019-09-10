@@ -54,19 +54,27 @@ const user_controllers = {
                 msg: "authentication failed"
             });
         }
+        let time = new Date();
+        let hour = time.getHours();
 
-        delete user.password;
-        jwt.sign(user.toJSON(), config.login_key, {expiresIn: '6h'}, (err, token) => {
-            if (err) return res.status(500).json({
+        const payload = {
+            email: user.email,
+            expires: time.setHours(hour + 2)
+        }
+
+        var token = jwt.sign(payload, config.login_key, {expiresIn: '2h'}, {algorithm: 'RS256'});
+        if (!token) {
+            return res.status(522).json({
                 status: false,
-                msg: 'an error occured, contact admin'
+                msg: 'contact admin'
             });
+        }
 
-            return res.status(200).json({
-                status: true,
-                msg: 'successfully logged in',
-                token
-            });
+        res.cookie("token", token, { httpOnly: true, secure: true });
+        return res.status(200).json({
+            status: true,
+            msg: "successfully logged in",
+            payload: payload.email
         });
     }
 };

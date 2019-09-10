@@ -25,7 +25,7 @@ mongoose
     .catch(err => console.log(err));
 
 app.use(passport.initialize());
-
+app.use(cors());
 app.use(helmet());
 app.use(logger("dev"));
 app.use(bodyParser.json());
