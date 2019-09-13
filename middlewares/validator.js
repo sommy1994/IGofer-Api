@@ -30,6 +30,10 @@ const validator = {
             .not().isEmpty().withMessage("phone number cannot be empty")
             .isString().withMessage("phone number should be a string")
             .isLength({min: 11}).withMessage("phone number should not be less than 11")
+    ], 
+    login_password: [
+        check('password')
+            .not().isEmpty().withMessage("password should not be empty")
     ]
 };
 

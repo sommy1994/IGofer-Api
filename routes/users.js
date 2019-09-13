@@ -15,6 +15,6 @@ router.post('/register',
 	user_controller.register
 );
 
-router.post('/login', user_controller.login);
+router.post('/login', validate.email, validate.login_password, user_controller.login);
 
 module.exports = router;
