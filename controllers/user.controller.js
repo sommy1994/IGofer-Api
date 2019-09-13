@@ -2,9 +2,18 @@ const user_model = require('../models/user');
 const config = require('../config/config');
 const bcrypt = require("bcrypt");
 const jwt = require('jsonwebtoken');
+const { validationResult } = require("express-validator");
 
 const user_controllers = {
     register : async (req, res) => {
+        const errorFormatter = ({ location, msg, param, value, nestedErrors }) => {
+            return `${location}[${param}]: ${msg}`;
+        };
+        const errors = validationResult(req).formatWith(errorFormatter);
+        if (!errors.isEmpty()){
+            return res.status(422).json({ errors: errors.array() });
+        }
+
         const salt_rounds = 10;
         const hash = await bcrypt.hash(req.body.password, salt_rounds);
 
@@ -17,19 +26,19 @@ const user_controllers = {
 
         const user = await user_model.findOne({ email: create_user.email }, 'email')
         if (user) {
-            return res.status(403).json({
+            return res.sendStatus(403).json({
                 status: false,
                 msg: "email already exists"
             });
         }
-
+        
         (new user_model(create_user)).save(err => {
-            if (err) return res.status(422).json({
+            if (err) return res.sendStatus(422).json({
                 status: false,
                 msg: 'error in creating user'
             });
 
-            res.status(201).json({
+            res.sendStatus(201).json({
                 status: true,
                 msg: 'successfully registered, please check your mail for confirmation'
             });
