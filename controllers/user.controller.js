@@ -12,7 +12,7 @@ const user_controllers = {
     register : async (req, res) => {
         const errors = validationResult(req).formatWith(errorFormatter);
         if (!errors.isEmpty()){
-            return res.status(422).json({ errors: errors.array() });
+            return res.status(403).json({ errors: errors.array() });
         }
 
         const salt_rounds = 10;
