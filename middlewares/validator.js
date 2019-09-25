@@ -1,6 +1,9 @@
 const {
     check
 } = require("express-validator");
+const JWT = require('jsonwebtoken');
+const config = require('../config/config');
+const user_model = require('../models/user');
 
 const validator = {
     name: [
@@ -37,4 +40,30 @@ const validator = {
     ]
 };
 
-module.exports = validator;
+const isAdmin = async (req, res, next) => {
+    try {
+        if (req && req.cookies) {
+
+            var token = req.headers['authorization'];
+            if (!token)
+                return res.status(401).send('unauthorized no header');
+            
+            var decoded = JWT.verify(token, config.login_key);
+            if (!decoded)
+                return res.status(401).send("unauthorized false token");
+            
+            var user = await user_model.findById(decoded.sub);
+            if (!user)
+                return res.status(404).send("user not found");
+            if (!user.isAdmin)
+                return res.status(401).send("unauthorized not admin");
+
+            next();
+        }
+        
+    } catch (error) {
+        res.status(422).json({status: false, message: 'An error occured'});
+    }
+}
+
+module.exports = {validator, isAdmin};

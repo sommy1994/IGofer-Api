@@ -1,7 +1,7 @@
 const user_model = require('../models/user');
 const config = require('../config/config');
 const bcrypt = require("bcrypt");
-const jwt = require('jsonwebtoken');
+const JWT = require('jsonwebtoken');
 const { validationResult } = require("express-validator");
 
 const errorFormatter = ({ location, msg, param}) => {
@@ -77,7 +77,14 @@ const user_controllers = {
             expires: time.setHours(hour + 2)
         }
 
-        var token = jwt.sign(payload, config.login_key, {expiresIn: '2h'}, {algorithm: 'RS256'});
+        // var token = jwt.sign(payload, config.login_key, {expiresIn: '2h'}, {algorithm: 'RS256'});
+        var token = JWT.sign({
+            iss: 'IGoder',
+            sub: user.id,
+            iat: new Date().getTime(),
+            exp: new Date().setDate(new Date().getDate() + 1)
+        }, config.login_key);
+
         if (!token) {
             return res.status(522).json({
                 status: false,
@@ -89,8 +96,28 @@ const user_controllers = {
         return res.status(200).json({
             status: true,
             msg: "successfully logged in",
-            payload: payload.email
+            payload: payload.email,
+            token
         });
+    },
+    get_users: async (req, res) => {
+        const errors = validationResult(req).formatWith(errorFormatter);
+        if (!errors.isEmpty()) {
+            return res.status(422).json({ errors: errors.array() });
+        }
+
+        var users = await user_model.find({});
+        var usersDTO = {};
+
+        users.forEach((user, i) => {
+            usersDTO[i] = {
+                email: user.email,
+                name: user.name,
+                phone_number: user.phone_number
+            }
+        });
+
+        res.status(200).json({status: true, data: usersDTO})
     }
 };
 

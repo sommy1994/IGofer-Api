@@ -23,6 +23,7 @@
     "nodemailer": "^6.3.0",
     "passport": "*",
     "passport-http": "*",
+    "passport-jwt": "^4.0.0",
     "passport-local": "*"
   },
   "engines": {

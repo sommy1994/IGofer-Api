@@ -1,20 +1,27 @@
-var express = require('express');
-var router = express.Router();
-const {validationResult} = require("express-validator");
+const express = require('express');
+const router = express.Router();
+const passport = require('passport');
 
-const validate = require('../middlewares/validator');
+const {validator, isAdmin} = require('../middlewares/validator');
 const user_controller = require("../controllers/user.controller");
+const passportConf = require('../middlewares/passport');
 
 
 /* GET users listing. */
 router.post('/register',
-	validate.name,
-	validate.password,
-	validate.email,
-	validate.phone,
+	validator.name,
+	validator.password,
+	validator.email,
+	validator.phone,
 	user_controller.register
 );
 
-router.post('/login', validate.email, validate.login_password, user_controller.login);
+router.post('/login', 
+	validator.email, validator.login_password, user_controller.login);
+
+router.get('/getUsers', 
+	passport.authenticate('jwt', {session: false}),
+	isAdmin,
+	user_controller.get_users)
 
 module.exports = router;

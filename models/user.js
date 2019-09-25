@@ -17,6 +17,14 @@ var userSchema = new Schema({
     password: {
         required: true,
         type: String
+    },
+    isAdmin: {
+        type: Boolean,
+        default: false
+    },
+    isWorker: {
+        type: Boolean,
+        default: false
     }
 }, {
     collection: 'Users',
