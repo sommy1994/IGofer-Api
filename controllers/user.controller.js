@@ -12,7 +12,7 @@ const user_controllers = {
     register : async (req, res) => {
         const errors = validationResult(req).formatWith(errorFormatter);
         if (!errors.isEmpty()){
-            return res.status(403).json({ errors: errors.array() });
+            return res.status(403).send({ errors: errors.array() });
         }
 
         const salt_rounds = 10;
@@ -27,19 +27,19 @@ const user_controllers = {
 
         const user = await user_model.findOne({ email: create_user.email }, 'email')
         if (user) {
-            return res.status(403).json({
+            return res.status(403).send({
                 status: false,
                 msg: "email already exists"
             });
         }
         
         (new user_model(create_user)).save(err => {
-            if (err) return res.status(422).json({
+            if (err) return res.status(422).send({
                 status: false,
                 msg: 'error in creating user'
             });
 
-            res.status(201).json({
+            res.status(201).send({
                 status: true,
                 msg: 'successfully registered, please check your mail for confirmation'
             });
@@ -48,7 +48,7 @@ const user_controllers = {
     login: async (req, res) => {
         const errors = validationResult(req).formatWith(errorFormatter);
             if (!errors.isEmpty()){
-                return res.status(422).json({ errors: errors.array() });
+                return res.status(422).send({ errors: errors.array() });
         }
 
         var email = req.body.email;
@@ -56,7 +56,7 @@ const user_controllers = {
 
         var user = await user_model.findOne({ email }, 'email name password phone_number');
         if (!user) {
-            return res.status(404).json({
+            return res.status(404).send({
                 status: false,
                 msg: "user not found"
             });
@@ -64,7 +64,7 @@ const user_controllers = {
 
         var compare_passwords = await bcrypt.compare(password, user.password);
         if (!compare_passwords) {
-            return res.status(404).json({
+            return res.status(404).send({
                 status: false,
                 msg: "authentication failed"
             });
@@ -86,14 +86,14 @@ const user_controllers = {
         }, config.login_key);
 
         if (!token) {
-            return res.status(522).json({
+            return res.status(522).send({
                 status: false,
                 msg: 'contact admin'
             });
         }
 
         res.cookie("token", token, { httpOnly: true, secure: true });
-        return res.status(200).json({
+        return res.status(200).send({
             status: true,
             msg: "successfully logged in",
             payload: payload.email,
@@ -103,7 +103,7 @@ const user_controllers = {
     get_users: async (req, res) => {
         const errors = validationResult(req).formatWith(errorFormatter);
         if (!errors.isEmpty()) {
-            return res.status(422).json({ errors: errors.array() });
+            return res.status(422).send({ errors: errors.array() });
         }
 
         var users = await user_model.find({});
@@ -117,7 +117,7 @@ const user_controllers = {
             }
         });
 
-        res.status(200).json({status: true, data: usersDTO})
+        res.status(200).send({status: true, data: usersDTO})
     }
 };
 

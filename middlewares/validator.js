@@ -62,7 +62,7 @@ const isAdmin = async (req, res, next) => {
         }
         
     } catch (error) {
-        res.status(422).json({status: false, message: 'An error occured'});
+        res.status(422).send({status: false, message: 'An error occured'});
     }
 }
 
