@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const passport = require('passport');
+require("../middlewares/passport");
 
 const {validator, isAdmin} = require('../middlewares/validator');
 const user_controller = require("../controllers/user.controller");
