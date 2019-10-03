@@ -4,15 +4,15 @@ const bcrypt = require("bcrypt");
 const JWT = require('jsonwebtoken');
 const { validationResult } = require("express-validator");
 
-const errorFormatter = ({ location, msg, param}) => {
-    return `${location}[${param}]: ${msg}`;
+const errorFormatter = ({msg}) => {
+    return {msg};
 };
 
 const user_controllers = {
     register : async (req, res) => {
         const errors = validationResult(req).formatWith(errorFormatter);
         if (!errors.isEmpty()){
-            return res.status(403).send({ errors: errors.array() });
+            return res.status(403).send({ errors: errors.mapped() });
         }
 
         const salt_rounds = 10;

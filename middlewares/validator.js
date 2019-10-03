@@ -17,7 +17,7 @@ const validator = {
         // 1 special character and must be eight characters or longer
         check('password')
             .not().isEmpty().withMessage("password should not be empty")
-            .matches("^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*])(?=.{8,})")
+            .matches("^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.{8,})")
             .withMessage("password must have 1 lowercase, 1 uppercase, 1 special character and 8 characters long"),
         check('confirm_password', 'password confirmation field must have the same value as the password field')
             .not().isEmpty().withMessage("confirm password should not be empty")
