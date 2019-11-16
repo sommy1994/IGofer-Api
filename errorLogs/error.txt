@@ -1,0 +1,10 @@
+16/11/2019: from service controller at at service delete with id 5dd00c80f8fb5c5e0809b7e1 and other error  
+16/11/2019: from service controller at at sub_service delete with id 5dd00c80f8fb5c5e0809b7e1 and other error  
+16/11/2019: from service controller at at service delete with id 5dd00c80f8fb5c5e0809b7e1 and other error  
+16/11/2019: from "service controller" at "at service delete" with id = "5dd00c80f8fb5c5e0809b7e1" and other error" "" 
+Sat Nov 16 2019 16:48:06 GMT+0100 (West Africa Standard Time): from "service controller" at "at service delete" with id = "5dd00c80f8fb5c5e0809b7e1" and other error" "" 
+Sat Nov 16 2019 16:52:03 GMT+0100 (West Africa Standard Time): from "service controller" at "at delete service catch error" with id = "5dd01b156c0f590658950c5e" and other error" "ObjectParameterError: Parameter "filter" to findOne() must be an object, got 5dd01b156c0f590658950c5e" 
+Sat Nov 16 2019 16:53:24 GMT+0100 (West Africa Standard Time): from "service controller" at "at delete service catch error" with id = "5dd01b156c0f590658950c5e" and other error" "TypeError: service.remove.exec is not a function" 
+Sat Nov 16 2019 16:57:19 GMT+0100 (West Africa Standard Time): from "service controller" at "at service delete" with id = "5dd01b156c0f590658950c5e" and other error" "" 
+Sat Nov 16 2019 16:58:33 GMT+0100 (West Africa Standard Time): from "service controller" at "at service delete" with id = "5dd01b156c0f590658950c5e" and other error" "" 
+Sat Nov 16 2019 16:59:21 GMT+0100 (West Africa Standard Time): from "service controller" at "at sub_service find" with id = "5dd01cb7d189ae0a6cb5f3d1" and other error" "" 

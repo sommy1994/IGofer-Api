@@ -11,6 +11,7 @@ var helmet = require('helmet');
 var cors = require("cors");
 
 var usersRouter = require("./routes/users");
+var servicesRouter = require("./routes/services");
 
 var app = express();
 
@@ -31,10 +32,13 @@ app.use(express.static(path.join(__dirname, "public")));
 
 app.get("/", (req, res) => res.status(204).json());
 app.use("/users", usersRouter);
+app.use("/services", servicesRouter);
 
 // catch 404 and forward to error handler
 app.use( (req, res, next) => {
-  next(createError(404, 'Page not found'));
+  var err = new Error('Not Found');
+  err.status = 404;
+  next(err);
 });
 
 module.exports = app;

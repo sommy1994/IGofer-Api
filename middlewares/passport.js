@@ -4,20 +4,12 @@ const { ExtractJwt } = require('passport-jwt');
 const config = require('../config/config');
 const user_model = require('../models/user');
 
-var cookieExtractor = function(req) {
-    var token = null;
-    if (req && req.cookies)
-        token = req.cookies['token'];
-    
-    return token;
-}
-
 passport.use(new JwtStrategy({
-    jwtFromRequest: cookieExtractor,
+    jwtFromRequest: ExtractJwt.fromHeader('authorization'),
     secretOrKey: config.login_key
 }, async (payload, done) => {
     try {
-        const user = await user_model.findById(payload.sub);
+        const user = await user_model.findById(payload.sub, 'first_name last_name email phone_number');
         if (!user) 
             return done(null, false)
         

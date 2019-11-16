@@ -1,16 +1,20 @@
-const {
-    check
-} = require("express-validator");
+const { check } = require("express-validator");
 const JWT = require('jsonwebtoken');
 const config = require('../config/config');
 const user_model = require('../models/user');
 
 const validator = {
-    name: [
-        check("name")
-            .not().isEmpty()
+    first_name: [
+        check("first_name")
+            .not().isEmpty().withMessage("first name must not be empty")
             .isString()
-            .withMessage("name must be a string and not empty")
+            .withMessage("first name must be a string")
+    ],
+    last_name: [
+        check("last_name")
+            .not().isEmpty().withMessage("last name must not be empty")
+            .isString()
+            .withMessage("last name must be a string and not empty")
     ],
     password: [
         //[.matches] the string must contain 1 lowercase, 1 uppercase, 1 numeric character
@@ -42,28 +46,36 @@ const validator = {
 
 const isAdmin = async (req, res, next) => {
     try {
-        if (req && req.cookies) {
+        var token = req.headers['authorization'];
+        if (!token)
+            return res.status(401).send('unauthorized');
+        
+        var decoded = JWT.verify(token, config.login_key);
+        if (!decoded)
+            return res.status(401).send("unauthorized");
+        
+        var user = await user_model.findById(decoded.sub);
+        if (!user)
+            return res.status(401).send("unauthorized");
+        if (!user.isAdmin)
+            return res.status(401).send("unauthorized");
 
-            var token = req.headers['authorization'];
-            if (!token)
-                return res.status(401).send('unauthorized no header');
-            
-            var decoded = JWT.verify(token, config.login_key);
-            if (!decoded)
-                return res.status(401).send("unauthorized false token");
-            
-            var user = await user_model.findById(decoded.sub);
-            if (!user)
-                return res.status(404).send("user not found");
-            if (!user.isAdmin)
-                return res.status(401).send("unauthorized not admin");
-
-            next();
-        }
+        next();
         
     } catch (error) {
         res.status(422).send({status: false, message: 'An error occured'});
     }
 }
 
-module.exports = {validator, isAdmin};
+const isValidObjectId = async (req, res, next) => {
+    let id = req.params.id;
+    var checkForHexRegExp = new RegExp("^[0-9a-fA-F]{24}$");
+
+    let check = checkForHexRegExp.test(id);
+    if (!check)
+        return res.status(400).send("invalid id");
+    
+    next();
+}
+
+module.exports = {validator, isAdmin, isValidObjectId};
