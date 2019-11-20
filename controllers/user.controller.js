@@ -90,7 +90,7 @@ const user_controllers = {
             return res.status(200).send({
                 status: true,
                 msg: "successfully logged in",
-                payload: user.email,
+                payload: {email: user.email, isAdmin: user.isAdmin},
                 token
             });
         } catch (error) {
