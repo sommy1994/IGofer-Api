@@ -29,6 +29,10 @@ var userSchema = new Schema({
     isWorker: {
         type: Boolean,
         default: false
+    },
+    activated: {
+        type: Boolean,
+        default: false
     }
 }, {
     collection: 'Users',

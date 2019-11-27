@@ -16,6 +16,7 @@
     "express": "~4.16.0",
     "express-validator": "*",
     "fs": "0.0.1-security",
+    "googleapis": "^45.0.0",
     "helmet": "^3.21.2",
     "http-errors": "^1.7.3",
     "jsonwebtoken": "^8.5.1",
@@ -25,7 +26,9 @@
     "passport": "*",
     "passport-http": "*",
     "passport-jwt": "^4.0.0",
-    "passport-local": "*"
+    "passport-local": "*",
+    "uuid": "^3.3.3",
+    "xoauth2": "^1.2.0"
   },
   "engines": {
     "node": "10.15.1"

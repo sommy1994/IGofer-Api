@@ -8,3 +8,5 @@ Sat Nov 16 2019 16:53:24 GMT+0100 (West Africa Standard Time): from "service con
 Sat Nov 16 2019 16:57:19 GMT+0100 (West Africa Standard Time): from "service controller" at "at service delete" with id = "5dd01b156c0f590658950c5e" and other error" "" 
 Sat Nov 16 2019 16:58:33 GMT+0100 (West Africa Standard Time): from "service controller" at "at service delete" with id = "5dd01b156c0f590658950c5e" and other error" "" 
 Sat Nov 16 2019 16:59:21 GMT+0100 (West Africa Standard Time): from "service controller" at "at sub_service find" with id = "5dd01cb7d189ae0a6cb5f3d1" and other error" "" 
+Mon Nov 25 2019 16:20:09 GMT+0100 (West Africa Standard Time): from "register" at "from register user" with id = "igoferng@gmail.com" and other error" "ReferenceError: activate_user is not defined" 
+Mon Nov 25 2019 16:21:01 GMT+0100 (West Africa Standard Time): from "register" at "from register user" with id = "igoferng@gmail.com" and other error" "TypeError: Cannot read property 'id' of null" 
