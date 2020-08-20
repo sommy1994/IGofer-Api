@@ -8,7 +8,7 @@
     "push": "git push heroku master && git push origin"
   },
   "dependencies": {
-    "bcrypt": "^3.0.6",
+    "bcrypt": "^5.0.0",
     "cookie-parser": "~1.4.3",
     "cors": "*",
     "debug": "~2.6.9",
